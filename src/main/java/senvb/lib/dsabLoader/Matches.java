@@ -37,7 +37,7 @@ public class Matches implements Serializable {
 
     public Matches(List<Match> matches) {
         this.matches.addAll(matches);
-        Collections.sort(this.matches, MATCH_DATE_SORTER);
+       this.matches.sort(MATCH_DATE_SORTER);
     }
 
     public List<Match> getMatches() {

@@ -39,7 +39,7 @@ public class Teams implements Serializable {
 
     public Teams(List<Team> teams) {
         this.teams.addAll(teams);
-        Collections.sort(teams, TEAM_RANKING);
+        teams.sort(TEAM_RANKING);
     }
 
     /**
