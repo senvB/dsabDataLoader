@@ -46,19 +46,19 @@ public class Players implements Serializable {
         return Collections.unmodifiableList(this.players);
     }
 
-    public List<Player> getPlayerFromTeam(int teamID) {
-        List<Player> teamPlayer = new ArrayList<>();
-        for (Player p : this.players) {
-            if (p.getTeamID() == teamID) {
-                teamPlayer.add(p);
-            }
-        }
-        return Collections.unmodifiableList(teamPlayer);
-    }
+//    public List<Player> getPlayerFromTeam(int teamID) {
+//        List<Player> teamPlayer = new ArrayList<>();
+//        for (Player p : this.players) {
+//            if (p.getTeamID() == teamID) {
+//                teamPlayer.add(p);
+//            }
+//        }
+//        return Collections.unmodifiableList(teamPlayer);
+//    }
 
-    public int getNumberOfPlayers() {
-        return this.players.size();
-    }
+//    public int getNumberOfPlayers() {
+//        return this.players.size();
+//    }
 
     @Override
     public boolean equals(Object o) {

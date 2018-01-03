@@ -26,9 +26,9 @@ import senvb.lib.dsabLoader.Team;
 import senvb.lib.dsabLoader.TeamResult;
 import senvb.lib.dsabLoader.Teams;
 
-public class UpdateAvailableChecker {
+class UpdateAvailableChecker {
 
-    public static boolean isUpdateAvailable(LeagueData oldData, Map<String, TeamRankingEntry> teamRanking) {
+    static boolean isUpdateAvailable(LeagueData oldData, Map<String, TeamRankingEntry> teamRanking) {
         return oldData == null || generateTeamRankingHash(oldData.getTeams()) != generateTeamRankingHash(teamRanking);
     }
 

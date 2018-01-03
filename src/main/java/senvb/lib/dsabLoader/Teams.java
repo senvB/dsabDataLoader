@@ -24,9 +24,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Collection of all teams in a league.
@@ -49,7 +47,7 @@ public class Teams implements Serializable {
      * @param teamName the name
      * @return the team or null if not found
      */
-    public Team getTeamByName(String teamName) {
+    Team getTeamByName(String teamName) {
         for (Team t : this.teams) {
             if (t.getName().equals(teamName)) {
                 return t;
@@ -72,35 +70,35 @@ public class Teams implements Serializable {
         return null;
     }
 
-    public final int getNumberOfTeams() {
-        return this.teams.size();
-    }
+//    public final int getNumberOfTeams() {
+//        return this.teams.size();
+//    }
 
     /**
      * Gets the team ID by its name.
      * @param teamName the name
      * @return the team ID or null if not found
      */
-    public int getTeamIDByName(String teamName) {
-        for (Team t : this.teams) {
-            if (t.getName().equals(teamName)) {
-                return t.getTeamID();
-            }
-        }
-        return -1;
-    }
+//    public int getTeamIDByName(String teamName) {
+//        for (Team t : this.teams) {
+//            if (t.getName().equals(teamName)) {
+//                return t.getTeamID();
+//            }
+//        }
+//        return -1;
+//    }
 
     /**
      * Gets all team names.
      * @return all team names
      */
-    public Set<String> getTeamNames() {
-        Set<String> names = new HashSet<>();
-        for (Team t : this.teams) {
-            names.add(t.getName());
-        }
-        return names;
-    }
+//    public Set<String> getTeamNames() {
+//        Set<String> names = new HashSet<>();
+//        for (Team t : this.teams) {
+//            names.add(t.getName());
+//        }
+//        return names;
+//    }
 
     /**
      * Returns a list of all teams ordered according to the current rank in the league.

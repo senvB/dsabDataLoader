@@ -21,9 +21,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Information for a league during a season in a region and state.
@@ -89,25 +86,25 @@ public class LeagueData implements Serializable {
         return this.metaData;
     }
 
-    public final List<Match> getMatchesForTeam(int teamID) {
-        return Collections.unmodifiableList(matches.getMatchesForTeam(teamID));
-    }
-
-    final int getTeamIDByName(String teamName) {
-        return this.teams.getTeamIDByName(teamName);
-    }
-
-    final Set<String> getTeamNames() {
-        return Collections.unmodifiableSet(this.teams.getTeamNames());
-    }
-
-    final int getNumberOfTeams() {
-        return this.teams.getNumberOfTeams();
-    }
-
-    final Match getMatchByID(int mID) {
-        return matches.getMatchesByID(mID);
-    }
+//    public final List<Match> getMatchesForTeam(int teamID) {
+//        return Collections.unmodifiableList(matches.getMatchesForTeam(teamID));
+//    }
+//
+//    final int getTeamIDByName(String teamName) {
+//        return this.teams.getTeamIDByName(teamName);
+//    }
+//
+//    final Set<String> getTeamNames() {
+//        return Collections.unmodifiableSet(this.teams.getTeamNames());
+//    }
+//
+//    final int getNumberOfTeams() {
+//        return this.teams.getNumberOfTeams();
+//    }
+//
+//    final Match getMatchByID(int mID) {
+//        return matches.getMatchesByID(mID);
+//    }
 
     @Override
     public boolean equals(Object o) {

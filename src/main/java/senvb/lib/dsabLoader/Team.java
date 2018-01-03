@@ -68,6 +68,10 @@ public class Team implements Serializable {
         return this.teamData.getCaptain();
     }
 
+    public final String getPhone() {
+        return this.teamData.getPhoneNumber();
+    }
+
     public final int getTeamID() {
         return this.teamData.getTeamID();
     }

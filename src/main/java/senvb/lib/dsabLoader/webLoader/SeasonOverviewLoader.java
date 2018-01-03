@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import senvb.lib.dsabLoader.Season;
 import senvb.lib.dsabLoader.webLoader.DataLoaderException.ExceptionType;
@@ -42,7 +43,7 @@ public final class SeasonOverviewLoader {
 
     private static final Logger LOG = LoggerFactory.getLogger(SeasonOverviewLoader.class);
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
 
     private SeasonOverviewLoader() {
         throw new UnsupportedOperationException();
@@ -88,8 +89,7 @@ public final class SeasonOverviewLoader {
             //first element in row is marked in bold (= additional child)
             elementWithRef = idElement.child(0);
         }
-        int id = resolveSeasonIDFromHref(elementWithRef.attributes());
-        return id;
+        return resolveSeasonIDFromHref(elementWithRef.attributes());
     }
 
     private static int resolveSeasonIDFromHref(Attributes attributes) {
