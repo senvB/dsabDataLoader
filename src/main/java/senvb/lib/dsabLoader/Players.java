@@ -39,7 +39,7 @@ public class Players implements Serializable {
 
     public Players(List<Player> players) {
         this.players.addAll(players);
-        Collections.sort(this.players, PLAYER_RANKING_COMPARATOR);
+        this.players.sort(PLAYER_RANKING_COMPARATOR);
     }
 
     public List<Player> getPlayerRanking() {
