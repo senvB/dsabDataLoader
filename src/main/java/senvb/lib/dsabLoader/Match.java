@@ -20,13 +20,14 @@ package senvb.lib.dsabLoader;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * A match in a league. Consists of general data about the teams playing this match and the date
  * and finally the results.
  */
-public class Match {
+public class Match implements Serializable {
 
 
     private final MatchData matchData;
