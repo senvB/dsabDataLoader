@@ -47,10 +47,9 @@ public final class LeagueMetaDataLoader {
 
     public static List<LeagueMetaData> loadLeagues(Season season) throws DataLoaderException {
         List<LeagueMetaData> leagues = new ArrayList<>();
-        int regionID = season.getRegionID();
         int seasonID = season.getSeasonID();
         try {
-            String url = resolveLeagueMetaDataUrl(regionID, seasonID).toString();
+            String url = resolveLeagueMetaDataUrl(seasonID).toString();
             Elements leaguesTable = LoaderUtil.loadHtmlSource(url, "table tbody tr");
             //header row
             Element leagueRow = leaguesTable.first();
@@ -87,7 +86,7 @@ public final class LeagueMetaDataLoader {
         return id;
     }
 
-    private static URL resolveLeagueMetaDataUrl(int regionID, int seasonID) throws MalformedURLException {
+    private static URL resolveLeagueMetaDataUrl(int seasonID) throws MalformedURLException {
         StringBuilder url = new StringBuilder();
         url.append(Constants.BASE_URL).append(Constants.SEASON_URL).append(seasonID);
         return new URL(url.toString());

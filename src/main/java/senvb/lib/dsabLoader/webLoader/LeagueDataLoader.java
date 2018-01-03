@@ -68,7 +68,7 @@ public class LeagueDataLoader {
 
             private final String text;
 
-            private Step(String msg) {
+            Step(String msg) {
                 this.text = msg;
             }
 

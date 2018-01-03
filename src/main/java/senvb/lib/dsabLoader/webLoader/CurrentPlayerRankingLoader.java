@@ -69,7 +69,6 @@ class CurrentPlayerRankingLoader {
         String teamString = rankingRow.child(2).text();
         String rankString = rankingRow.child(0).text();
         String name = rankingRow.child(1).text();
-        ;
 
         int rank = -1;
         try {

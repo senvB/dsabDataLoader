@@ -26,7 +26,7 @@ class TeamAddressData {
     private String street;
     private String venue;
 
-    public String resolveAddress() {
+    String resolveAddress() {
         return getStreet() + ", " + getPlz() + " " + getDistrict();
     }
 

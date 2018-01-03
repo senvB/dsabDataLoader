@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -50,7 +51,7 @@ class GamePlanLoader {
 
     private static final Logger LOG = LoggerFactory.getLogger(GamePlanLoader.class);
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm dd.MM.yy");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm dd.MM.yy", Locale.getDefault());
     private static final Pattern DATE_PATTERN = Pattern.compile("\\d\\d:\\d\\d\\s\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d");
 
 
@@ -192,28 +193,31 @@ class GamePlanLoader {
     }
 
     private static String[] splitDistrictAndPhone(String districtAndPhone) {
-        String district = null;
-        String phone = null;
+        StringBuilder district = null;
+        StringBuilder phone = null;
         for (String s : districtAndPhone.split(" ")) {
             if (Character.isDigit(s.charAt(0))) {
                 if (district == null) {
-                    district = "";
+                    district = new StringBuilder();
                 }
                 if (phone == null) {
-                    phone = s;
+                    phone = new StringBuilder(s);
                 } else {
-                    phone = phone + " " + s;
+                    phone.append(" ").append(s);
                 }
             } else if (district == null) {
-                district = s;
+                district = new StringBuilder(s);
             } else {
-                district = district + " " + s;
+                district.append(" ").append(s);
             }
         }
         if (phone == null) {
-            phone = "";
+            phone = new StringBuilder();
         }
-        return new String[]{district, phone};
+        if (district == null) {
+            district = new StringBuilder();
+        }
+        return new String[]{district.toString(), phone.toString()};
     }
 
     private static MatchData processMatchData(String line, int currentRound, Map<String, Integer> mappingTeamID) throws DataLoaderException {
@@ -285,8 +289,8 @@ class GamePlanLoader {
         return numbers;
     }
 
-    private static enum ParseMode {
+    private enum ParseMode {
         ADDRESS,
-        MATCHES;
+        MATCHES
     }
 }
