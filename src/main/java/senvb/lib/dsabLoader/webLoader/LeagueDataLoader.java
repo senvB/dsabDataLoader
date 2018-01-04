@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +131,13 @@ public class LeagueDataLoader {
         if (listener != null) {
             listener.update(LeagueDataLoaderProgressListener.Step.PLAYER_RANKING);
         }
-        Players players = CurrentPlayerRankingLoader.loadCurrentPlayerRanking(lData, internalTeamIdMapping);
+        Players players;
+        try {
+            players = CurrentPlayerRankingLoader.loadCurrentPlayerRanking(lData, internalTeamIdMapping);
+        } catch (DataLoaderException e) {
+            LOG.error("Cannot read players ranking", e);
+            players = new Players(Collections.emptyList());
+        }
 
         // update results of the matches
         if (listener != null) {

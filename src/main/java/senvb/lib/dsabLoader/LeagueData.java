@@ -40,26 +40,26 @@ public class LeagueData implements Serializable {
     private final Teams teams;
 
     public LeagueData(LeagueMetaData lmd, Players player, Matches match, Teams team) {
-        this.metaData = lmd;
-        this.players = player;
-        this.teams = team;
-        this.matches = match;
+        metaData = lmd;
+        players = player;
+        teams = team;
+        matches = match;
     }
 
     public final int getRegionID() {
-        return this.metaData.getRegionID();
+        return metaData.getRegionID();
     }
 
     public final int getSeasonID() {
-        return this.metaData.getSeasonID();
+        return metaData.getSeasonID();
     }
 
     public final int getLeagueID() {
-        return this.metaData.getLeagueID();
+        return metaData.getLeagueID();
     }
 
     public final Teams getTeams() {
-        return this.teams;
+        return teams;
     }
 
     public final Matches getMatches() {
@@ -67,23 +67,27 @@ public class LeagueData implements Serializable {
     }
 
     public final Players getPlayers() {
-        return this.players;
+        return players;
     }
 
     public final Team getTeamByName(String teamName) {
-        return this.teams.getTeamByName(teamName);
+        return teams.getTeamByName(teamName);
     }
 
     public final Team getTeamByNumber(int id) {
-        return this.teams.getTeamByNumber(id);
+        return teams.getTeamByNumber(id);
     }
 
     public final String getName() {
-        return this.metaData.getName();
+        return metaData.getName();
     }
 
     public final LeagueMetaData getLeagueMetaData() {
-        return this.metaData;
+        return metaData;
+    }
+
+    public final boolean hasPlayers() {
+        return players.getNumberOfPlayers() > 0;
     }
 
 //    public final List<Match> getMatchesForTeam(int teamID) {
@@ -113,20 +117,20 @@ public class LeagueData implements Serializable {
         }
         LeagueData other = (LeagueData) o;
         EqualsBuilder builder = new EqualsBuilder();
-        builder.append(this.metaData, other.metaData)
-                .append(this.players, other.players)
-                .append(this.teams, other.teams)
-                .append(this.matches, other.matches);
+        builder.append(metaData, other.metaData)
+                .append(players, other.players)
+                .append(teams, other.teams)
+                .append(matches, other.matches);
         return builder.build();
     }
 
     @Override
     public int hashCode() {
         HashCodeBuilder builder = new HashCodeBuilder();
-        builder.append(this.metaData)
-                .append(this.players)
-                .append(this.teams)
-                .append(this.matches);
+        builder.append(metaData)
+                .append(players)
+                .append(teams)
+                .append(matches);
         return builder.build();
     }
 }

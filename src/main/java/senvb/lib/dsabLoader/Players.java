@@ -56,9 +56,9 @@ public class Players implements Serializable {
 //        return Collections.unmodifiableList(teamPlayer);
 //    }
 
-//    public int getNumberOfPlayers() {
-//        return this.players.size();
-//    }
+    public int getNumberOfPlayers() {
+        return this.players.size();
+    }
 
     @Override
     public boolean equals(Object o) {
