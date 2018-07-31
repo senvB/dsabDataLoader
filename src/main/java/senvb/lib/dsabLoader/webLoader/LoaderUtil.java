@@ -28,7 +28,15 @@ import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
 
 final class LoaderUtil {
 
@@ -41,8 +49,9 @@ final class LoaderUtil {
                 .header("connection", "Keep-Alive").timeout(25000).get().select(pattern);
     }
 
-    static String loadPdfFromSource(URL url) throws IOException {
-        PdfReader reader = new PdfReader(url);
+    static String loadPdfFromSource(URL url) throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+        InputStream is = getStream(url);
+        PdfReader reader = new PdfReader(is);
         PdfReaderContentParser parser = new PdfReaderContentParser(reader);
         StringBuilder sb = new StringBuilder();
         for (int i = 1; i <= reader.getNumberOfPages(); i++) {
@@ -65,6 +74,15 @@ final class LoaderUtil {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    private static InputStream getStream(URL url) throws NoSuchAlgorithmException, KeyManagementException, IOException {
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, null, null);
+        HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
+        conn.setSSLSocketFactory(sslContext.getSocketFactory());
+        conn.connect();
+        return conn.getInputStream();
     }
 
 }

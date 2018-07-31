@@ -19,7 +19,6 @@ package senvb.lib.dsabLoader.webLoader;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -40,7 +39,7 @@ class CurrentResultListLoader {
             String pdfData = LoaderUtil.loadPdfFromSource(resolveCurrentResultListUrl(lmd));
             resolveResults(pdfData, mappingTeamID, results);
             return results;
-        } catch (IOException | NullPointerException | NumberFormatException | IndexOutOfBoundsException e) {
+        } catch (Exception e) {
             throw new DataLoaderException(ExceptionType.CURRENT_RESULTS, e);
         }
     }

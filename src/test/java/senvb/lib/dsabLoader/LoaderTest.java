@@ -21,13 +21,28 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URL;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.util.Date;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLPeerUnverifiedException;
+import javax.net.ssl.TrustManagerFactory;
 
 import senvb.lib.dsabLoader.json.LeagueDataJSON;
 import senvb.lib.dsabLoader.json.RegionJSON;
@@ -38,12 +53,103 @@ import senvb.lib.dsabLoader.webLoader.LeagueDataLoader;
 import senvb.lib.dsabLoader.webLoader.LeagueMetaDataLoader;
 import senvb.lib.dsabLoader.webLoader.RegionLoader;
 import senvb.lib.dsabLoader.webLoader.SeasonOverviewLoader;
+import sun.net.www.protocol.https.DefaultHostnameVerifier;
+
 
 public class LoaderTest {
+
+    private static String USER_AGENT_HEADER_KEY = "User-Agent";
+
+    private static String USER_AGENT_HEADER_VALUE = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0";
+
 
     private static final int BERLIN_REGION_ID = 50;
     private static final String BERLIN_REGION_NAME = "Berlin";
     private static final int SEASON_ID = 1917;
+
+    @Test
+    public void main() throws Exception {
+
+        String urlString = "https://www.dsab-vfs.de/VFSProject/WebObjects/VFSProject.woa/wa/rangListen?liga=5424&typ=ergebnislistePDF&saison=2656";
+        URL url1 = new URL(urlString);
+
+        KeyStore keyStore = null;
+        try {
+            keyStore = KeyStore.getInstance("JKS");
+            InputStream streamProd = getClass().getClassLoader().getResourceAsStream("dsab.jks");
+            if (streamProd == null) {
+                System.out.println("Cannot load keystore for environment status requests");
+            } else {
+                keyStore.load(streamProd, "dsabdsab".toCharArray());
+                streamProd.close();
+            }
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
+            e.printStackTrace();
+            System.out.println("Cannot set up keystore for environment status requests");
+        }
+
+        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509");
+        keyManagerFactory.init(keyStore, "dsabdsab".toCharArray());
+        TrustManagerFactory tmf = TrustManagerFactory
+                .getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        tmf.init(keyStore);
+
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(keyManagerFactory.getKeyManagers(), tmf.getTrustManagers(), null);
+        HttpsURLConnection  conn = (HttpsURLConnection)url1.openConnection();
+        conn.setSSLSocketFactory(sslContext.getSocketFactory());
+        conn.setHostnameVerifier(new DefaultHostnameVerifier());
+        //conn.addRequestProperty(USER_AGENT_HEADER_KEY, USER_AGENT_HEADER_VALUE);
+        print_https_cert(conn);
+        conn.connect();
+        System.out.println(conn.getResponseCode());
+        System.out.println(conn.getResponseMessage());
+        System.out.println(conn.getHeaderFields());
+        print_https_cert(conn);
+        InputStream is = conn.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+        String bla = reader.readLine();
+        while(bla != null) {
+            System.out.println(bla);
+            bla= reader.readLine();
+        }
+        System.out.println("finished");
+    }
+
+
+
+
+    private void print_https_cert(HttpsURLConnection con){
+
+        if(con!=null){
+
+            try {
+
+                System.out.println("Response Code : " + con.getResponseCode());
+                System.out.println("Cipher Suite : " + con.getCipherSuite());
+                System.out.println("\n");
+
+                Certificate[] certs = con.getServerCertificates();
+                for(Certificate cert : certs){
+                    System.out.println("Cert Type : " + cert.getType());
+                    System.out.println("Cert Hash Code : " + cert.hashCode());
+                    System.out.println("Cert Public Key Algorithm : "
+                            + cert.getPublicKey().getAlgorithm());
+                    System.out.println("Cert Public Key Format : "
+                            + cert.getPublicKey().getFormat());
+                    System.out.println("\n");
+                }
+
+            } catch (SSLPeerUnverifiedException e) {
+                e.printStackTrace();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+
+        }
+
+    }
 
     @Test
     public void loadRegionsTest() throws DataLoaderException, IOException {

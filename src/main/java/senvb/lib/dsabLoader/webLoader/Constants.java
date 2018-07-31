@@ -23,7 +23,7 @@ import java.util.Set;
 
 public final class Constants {
 
-    static final String BASE_URL = "http://www.dsab-vfs.de";
+    static final String BASE_URL = "https://www.dsab-vfs.de";
     static final String GAME_PLAN_URL_POST = "&typ=partienplanPDF&saison=";
     static final String LEAGUE_URL_POST = "&typ=teamrang&saison=";
     static final String PLAYER_URL_POST = "&typ=einzelrang&saison=";

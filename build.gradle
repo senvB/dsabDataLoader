@@ -4,14 +4,17 @@ plugins {
 
 apply plugin: 'java'
 
+group = "senvb.lib"
+version = "0.1"
+
 dependencies {
     compile 'com.squareup.moshi:moshi:1.5.0'
     compile 'commons-io:commons-io:2.6'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
-    compile group: 'org.jsoup', name: 'jsoup', version: '1.10.3'
-    compile group: 'com.itextpdf', name: 'itextg', version: '5.5.10'
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+    compile 'org.apache.commons:commons-lang3:3.7'
+    compile 'org.jsoup:jsoup:1.11.2'
+    compile 'com.itextpdf:itextg:5.5.10'
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile 'org.slf4j:slf4j-simple:1.7.25'
 
     testCompile 'junit:junit:4.12'
     testCompile group: 'com.tngtech.java', name: 'junit-dataprovider', version: '1.10.0'

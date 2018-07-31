@@ -65,7 +65,7 @@ class GamePlanLoader {
             String pdfData = LoaderUtil.loadPdfFromSource(url);
             String[] prefixes = findPrefixOfStreet(url);
             return resolveGamePlanData(pdfData, mappingTeamID, prefixes);
-        } catch (IOException | NullPointerException | NumberFormatException | IndexOutOfBoundsException e) {
+        } catch (Exception e) {
             throw new DataLoaderException(ExceptionType.GAME_PLAN, e);
         }
     }
