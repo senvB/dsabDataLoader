@@ -33,18 +33,28 @@ public class DataLoaderException extends Exception {
 
     private final ExceptionType type;
 
-    public DataLoaderException(ExceptionType type, Throwable t) {
+
+
+    private final String url;
+
+    public DataLoaderException(ExceptionType type, Throwable t, String url) {
         super(t);
         this.type = type;
+        this.url = url;
     }
 
     public DataLoaderException(ExceptionType type) {
         super();
         this.type = type;
+        this.url = "";
     }
 
     public final ExceptionType getType() {
         return type;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
 }

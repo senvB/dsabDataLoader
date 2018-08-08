@@ -45,8 +45,10 @@ public final class RegionLoader {
 
     public static List<Region> loadRegionsForState(String stateName) throws DataLoaderException {
         List<Region> regions = new ArrayList<>();
+        String url = "";
         try {
-            Elements regionTable = LoaderUtil.loadHtmlSource(resolveRegionForStateUrl(stateName).toString(), "table.list tbody tr");
+            url = resolveRegionForStateUrl(stateName).toString();
+            Elements regionTable = LoaderUtil.loadHtmlSource(url, "table.list tbody tr");
             //header row
             Element regionRow = regionTable.first();
             if (regionRow != null) {
@@ -57,7 +59,7 @@ public final class RegionLoader {
             }
             return regions;
         } catch (IOException e) {
-            throw new DataLoaderException(ExceptionType.REGION, e);
+            throw new DataLoaderException(ExceptionType.REGION, e, url);
         }
     }
 

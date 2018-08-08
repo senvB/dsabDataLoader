@@ -135,7 +135,7 @@ public class LeagueDataLoader {
         try {
             players = CurrentPlayerRankingLoader.loadCurrentPlayerRanking(lData, internalTeamIdMapping);
         } catch (DataLoaderException e) {
-            LOG.error("Cannot read players ranking", e);
+            LOG.error("Cannot read players ranking when reading from " + e.getUrl(), e);
             players = new Players(Collections.emptyList());
         }
 

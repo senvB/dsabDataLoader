@@ -35,12 +35,15 @@ class CurrentResultListLoader {
 
     static Map<Integer, MatchResult> loadCurrentResultList(LeagueMetaData lmd, Map<String, Integer> mappingTeamID) throws DataLoaderException {
         Map<Integer, MatchResult> results = new HashMap<>();
+        String  urlString =  "";
         try {
-            String pdfData = LoaderUtil.loadPdfFromSource(resolveCurrentResultListUrl(lmd));
+            URL url = resolveCurrentResultListUrl(lmd);
+            urlString = url.toString();
+            String pdfData = LoaderUtil.loadPdfFromSource(url);
             resolveResults(pdfData, mappingTeamID, results);
             return results;
         } catch (Exception e) {
-            throw new DataLoaderException(ExceptionType.CURRENT_RESULTS, e);
+            throw new DataLoaderException(ExceptionType.CURRENT_RESULTS, e, urlString);
         }
     }
 
@@ -94,7 +97,7 @@ class CurrentResultListLoader {
                 throw new DataLoaderException(ExceptionType.CURRENT_RESULTS);
             }
         } catch (NumberFormatException e) {
-            throw new DataLoaderException(ExceptionType.CURRENT_RESULTS, e);
+            throw new DataLoaderException(ExceptionType.CURRENT_RESULTS);
         }
         return matchNumber;
     }

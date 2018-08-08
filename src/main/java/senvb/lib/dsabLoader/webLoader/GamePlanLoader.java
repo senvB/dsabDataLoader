@@ -60,13 +60,15 @@ class GamePlanLoader {
     }
 
     static GameAndTeamData loadGamePlan(LeagueMetaData lmd, Map<String, Integer> mappingTeamID) throws DataLoaderException {
+        String urlString = "";
         try {
             URL url = resolveGamePlanUrl(lmd);
+            urlString = url.toString();
             String pdfData = LoaderUtil.loadPdfFromSource(url);
             String[] prefixes = findPrefixOfStreet(url);
             return resolveGamePlanData(pdfData, mappingTeamID, prefixes);
         } catch (Exception e) {
-            throw new DataLoaderException(ExceptionType.GAME_PLAN, e);
+            throw new DataLoaderException(ExceptionType.GAME_PLAN, e, urlString);
         }
     }
 
@@ -265,7 +267,7 @@ class GamePlanLoader {
             try {
                 return DATE_FORMAT.parse(matcher.group(0));
             } catch (ParseException e) {
-                throw new DataLoaderException(ExceptionType.GAME_PLAN, e);
+                throw new DataLoaderException(ExceptionType.GAME_PLAN);
             }
         }
         throw new DataLoaderException(ExceptionType.GAME_PLAN);

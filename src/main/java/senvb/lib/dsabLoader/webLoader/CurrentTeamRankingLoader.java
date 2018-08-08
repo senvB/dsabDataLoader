@@ -44,8 +44,10 @@ class CurrentTeamRankingLoader {
 
     static Map<String, TeamRankingEntry> loadCurrentTeamRanking(LeagueMetaData lmd) throws DataLoaderException {
         Map<String, TeamRankingEntry> ranking = new HashMap<>();
+        String url = "";
         try {
-            Element tables = LoaderUtil.loadHtmlSource(resolveCurrentTeamRankingUrl(lmd).toString(), "table").last();
+            url = resolveCurrentTeamRankingUrl(lmd).toString();
+            Element tables = LoaderUtil.loadHtmlSource(url, "table").last();
             //header row
             Element rankingRow = tables.select("tbody tr").first();
             if (rankingRow != null) {
@@ -57,7 +59,7 @@ class CurrentTeamRankingLoader {
             }
             return ranking;
         } catch (IOException e) {
-            throw new DataLoaderException(ExceptionType.TEAM_RANKING, e);
+            throw new DataLoaderException(ExceptionType.TEAM_RANKING, e, url);
         }
     }
 

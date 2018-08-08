@@ -46,7 +46,7 @@ final class LoaderUtil {
 
     static Elements loadHtmlSource(String url, String pattern) throws IOException {
         return Jsoup.connect(url).header(LoaderUtil.USER_AGENT_HEADER_KEY, LoaderUtil.USER_AGENT_HEADER_VALUE)
-                .header("connection", "Keep-Alive").timeout(25000).get().select(pattern);
+                .header("connection", "Keep-Alive").timeout(50000).get().select(pattern);
     }
 
     static String loadPdfFromSource(URL url) throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {

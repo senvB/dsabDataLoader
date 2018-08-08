@@ -48,8 +48,9 @@ public final class LeagueMetaDataLoader {
     public static List<LeagueMetaData> loadLeagues(Season season) throws DataLoaderException {
         List<LeagueMetaData> leagues = new ArrayList<>();
         int seasonID = season.getSeasonID();
+        String url = "";
         try {
-            String url = resolveLeagueMetaDataUrl(seasonID).toString();
+            url = resolveLeagueMetaDataUrl(seasonID).toString();
             Elements leaguesTable = LoaderUtil.loadHtmlSource(url, "table tbody tr");
             //header row
             Element leagueRow = leaguesTable.first();
@@ -61,7 +62,7 @@ public final class LeagueMetaDataLoader {
             }
             return leagues;
         } catch (IOException e) {
-            throw new DataLoaderException(ExceptionType.LEAGUE_META_DATA, e);
+            throw new DataLoaderException(ExceptionType.LEAGUE_META_DATA, e, url);
         }
     }
 

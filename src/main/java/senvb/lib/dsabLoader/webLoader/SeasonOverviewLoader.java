@@ -51,8 +51,10 @@ public final class SeasonOverviewLoader {
 
     public static List<Season> loadSeasons(int regionID, String regionName) throws DataLoaderException {
         List<Season> seasons = new ArrayList<>();
+        String url  ="";
         try {
-            Elements seasonsTable = LoaderUtil.loadHtmlSource(resolveSeasonOverviewUrl(regionID).toString(), "table tbody tr");
+            url = resolveSeasonOverviewUrl(regionID).toString();
+            Elements seasonsTable = LoaderUtil.loadHtmlSource(url, "table tbody tr");
             //header row
             Element seasonRow = seasonsTable.first();
             if (seasonRow != null) {
@@ -63,7 +65,7 @@ public final class SeasonOverviewLoader {
             }
             return seasons;
         } catch (IOException e) {
-            throw new DataLoaderException(ExceptionType.SEASON_OVERVIEW, e);
+            throw new DataLoaderException(ExceptionType.SEASON_OVERVIEW, e, url);
         }
     }
 

@@ -48,8 +48,9 @@ class CurrentPlayerRankingLoader {
 
     static Players loadCurrentPlayerRanking(LeagueMetaData lmd, Map<String, Integer> mappingTeamID) throws DataLoaderException {
         List<Player> players = new ArrayList<>();
+        String url = "";
         try {
-            String url = resolveCurrentPlayerRankingUrl(lmd).toString();
+            url = resolveCurrentPlayerRankingUrl(lmd).toString();
             Element rankingTable = LoaderUtil.loadHtmlSource(url, "table").last();
             //header row
             Element rankingRow = rankingTable.select("tbody tr").first();
@@ -60,7 +61,7 @@ class CurrentPlayerRankingLoader {
                 }
             }
         } catch (IOException e) {
-            throw new DataLoaderException(ExceptionType.CURRENT_PLAYER_RANKING, e);
+            throw new DataLoaderException(ExceptionType.CURRENT_PLAYER_RANKING, e, url);
         }
         return new Players(players);
     }
