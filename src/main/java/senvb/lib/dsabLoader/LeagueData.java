@@ -21,6 +21,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.io.Serializable;
+import java.util.Optional;
+
+import senvb.lib.dsabLoader.utils.RankingUtil;
 
 /**
  * Information for a league during a season in a region and state.
@@ -29,6 +32,18 @@ import java.io.Serializable;
 public class LeagueData implements Serializable {
 
     private static final long serialVersionUID = 1;
+
+    public enum RankingType {
+        FULL,
+
+        HOME,
+
+        AWAY,
+
+        FIRST_HALF,
+
+        SECOND_HALF
+    }
 
     /** all matches in this league */
     private final Matches matches;
@@ -62,6 +77,22 @@ public class LeagueData implements Serializable {
         return teams;
     }
 
+    public final Teams getTeamsWithRanking(RankingType rt) {
+        switch (rt) {
+            case AWAY:
+                return RankingUtil.calculateAwayRanking(teams, matches);
+            case FIRST_HALF:
+                return RankingUtil.calculateFirstHalfRanking(teams, matches);
+            case HOME:
+                return RankingUtil.calculateHomeRanking(teams, matches);
+            case SECOND_HALF:
+                return RankingUtil.calculateSecondHalfRanking(teams, matches);
+            case FULL:
+            default:
+                return getTeams();
+        }
+    }
+
     public final Matches getMatches() {
         return matches;
     }
@@ -70,11 +101,11 @@ public class LeagueData implements Serializable {
         return players;
     }
 
-    public final Team getTeamByName(String teamName) {
+    public final Optional<Team> getTeamByName(String teamName) {
         return teams.getTeamByName(teamName);
     }
 
-    public final Team getTeamByNumber(int id) {
+    public final Optional<Team> getTeamByNumber(int id) {
         return teams.getTeamByNumber(id);
     }
 

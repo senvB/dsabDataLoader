@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import senvb.lib.dsabLoader.LeagueData;
 import senvb.lib.dsabLoader.LeagueMetaData;
@@ -52,6 +53,8 @@ import senvb.lib.dsabLoader.Teams;
 public class LeagueDataLoader {
 
     private static final Logger LOG = LoggerFactory.getLogger(LeagueDataLoader.class);
+
+    private static final String[] NO_TEAM = {"keine Mannschaft", "Kein Team"};
 
     public interface LeagueDataLoaderProgressListener {
 
@@ -150,38 +153,64 @@ public class LeagueDataLoader {
                 listener.update(LeagueDataLoaderProgressListener.Step.GAME_PLAN);
             }
             GameAndTeamData gamesTeams = GamePlanLoader.loadGamePlan(lData, internalTeamIdMapping);
-            Matches matches = resolveMatches(gamesTeams.getMatchData(), results);
             Teams teams = resolveTeams(teamRanking, gamesTeams.getTeamData(), internalTeamIdMapping);
+            Matches matches = resolveMatches(teams, gamesTeams.getMatchData(), results);
             ld = new LeagueData(lData, players, matches, teams);
         } else {
-            Matches matches = resolveMatches(oldData.getMatches(), results);
+            Matches matches = resolveMatches(oldData , results);
             Teams teams = resolveTeams(teamRanking, oldData.getTeams(), internalTeamIdMapping);
             ld = new LeagueData(lData, players, matches, teams);
         }
         return ld;
     }
 
-    private static Matches resolveMatches(Matches gamesData, Map<Integer, MatchResult> results) {
+    private static Matches resolveMatches(LeagueData oldData, Map<Integer, MatchResult> results) {
+        Matches gamesData = oldData.getMatches();
         List<Match> matches = new ArrayList<>();
         for (int i : results.keySet()) {
             MatchData md = gamesData.getMatchesByID(i).getMatchData();
             if (md == null) {
                 LOG.error("Incomplete match data!!");
             } else {
-                matches.add(new Match(md, results.get(i)));
+                Optional<Team> home = oldData.getTeamByNumber(md.getHome());
+                Optional<Team> away = oldData.getTeamByNumber(md.getAway());
+                if (home.isPresent() && away.isPresent()) {
+                    matches.add(new Match(md, results.get(i), isRealMatch(home.get(), away.get())));
+                } else {
+                    LOG.error("Cannot resolve team by ID");
+                }
             }
         }
         return new Matches(matches);
     }
 
-    private static Matches resolveMatches(Map<Integer, MatchData> gamesData, Map<Integer, MatchResult> results) {
+    private static boolean isRealMatch(Team home, Team away) {
+        return isRealTeam(home.getName()) && isRealTeam(away.getName());
+    }
+
+    private static boolean isRealTeam(String teamName) {
+        for (String noTeam : NO_TEAM) {
+            if (teamName.toLowerCase().contains(noTeam.toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static Matches resolveMatches(Teams teams, Map<Integer, MatchData> gamesData, Map<Integer, MatchResult> results) {
         List<Match> matches = new ArrayList<>();
         for (int i : results.keySet()) {
             MatchData md = gamesData.get(i);
             if (md == null) {
                 LOG.error("Incomplete match data!!");
             } else {
-                matches.add(new Match(md, results.get(i)));
+                Optional<Team> home = teams.getTeamByNumber(md.getHome());
+                Optional<Team> away = teams.getTeamByNumber(md.getAway());
+                if (home.isPresent() && away.isPresent()) {
+                    matches.add(new Match(md, results.get(i), isRealMatch(home.get(), away.get())));
+                } else {
+                    LOG.error("Cannot resolve team by ID");
+                }
             }
         }
         return new Matches(matches);
@@ -208,8 +237,12 @@ public class LeagueDataLoader {
             String teamName = entry.getKey();
             int teamID = mappingTeamID.get(teamName);
             TeamRankingEntry teamRank = entry.getValue();
-            TeamData td = teamData.getTeamByNumber(teamID).getTeamData();
-            teams.add(new Team(td, teamRank.getResults()));
+            Optional<Team> team = teamData.getTeamByNumber(teamID);
+            if (team.isPresent()) {
+                teams.add(new Team(team.get().getTeamData(), teamRank.getResults()));
+            } else {
+                LOG.error("Cannot resolve team from ID");
+            }
         }
         return new Teams(teams);
     }

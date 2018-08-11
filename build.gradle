@@ -24,7 +24,7 @@ dependencies {
 license {
     header = file('LICENSE_HEADER')
     strictCheck true
-    exclude "**/*.json"
+    excludes  (["**/*.json", "**/*.jpg", "**/*.mdj"])
 }
 
 sourceCompatibility = "1.8"

@@ -32,10 +32,13 @@ public class Match implements Serializable {
 
     private final MatchData matchData;
     private final MatchResult matchResult;
+    private final boolean isRealMatch;
 
-    public Match(MatchData matchData, MatchResult matchResult) {
+
+    public Match(MatchData matchData, MatchResult matchResult, boolean isRealMatch) {
         this.matchData = matchData;
         this.matchResult = matchResult;
+        this.isRealMatch = isRealMatch;
     }
 
     public final MatchData getMatchData() {
@@ -76,6 +79,20 @@ public class Match implements Serializable {
         return -1;
     }
 
+    public final int getHomePoints() {
+        if (isPlayed()) {
+            return this.matchResult.getHomePoints();
+        }
+        return -1;
+    }
+
+    public final int getAwayPoints() {
+        if (isPlayed()) {
+            return this.matchResult.getAwayPoints();
+        }
+        return -1;
+    }
+
     public final int getAwayMatches() {
         if (isPlayed()) {
             return this.matchResult.getAwayGames();
@@ -92,6 +109,10 @@ public class Match implements Serializable {
 
     public final boolean isPlayed() {
         return matchResult.isPlayed();
+    }
+
+    public final boolean isRealMatch() {
+        return isRealMatch;
     }
 
     @Override

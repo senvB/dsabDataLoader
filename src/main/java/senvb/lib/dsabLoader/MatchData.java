@@ -61,11 +61,11 @@ public class MatchData implements Serializable {
         return this.matchID;
     }
 
-    int getHome() {
+    public int getHome() {
         return this.home;
     }
 
-    int getAway() {
+    public int getAway() {
         return this.away;
     }
 
