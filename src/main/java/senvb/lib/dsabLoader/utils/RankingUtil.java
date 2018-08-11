@@ -1,10 +1,31 @@
+/**
+ *  The DSAB data loader library allows to parse information for DSAB dart leagues.
+ *  Copyright (C) 2017-2018  Sven Baselau
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package senvb.lib.dsabLoader.utils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import senvb.lib.dsabLoader.Match;
 import senvb.lib.dsabLoader.Matches;
@@ -12,10 +33,27 @@ import senvb.lib.dsabLoader.Team;
 import senvb.lib.dsabLoader.TeamResult;
 import senvb.lib.dsabLoader.Teams;
 
+/**
+ * Utility class to calculate different ranking options. Currently calculated and provided:
+ * - home
+ * - away
+ * - first half
+ * - second half
+ */
 public class RankingUtil {
 
+    private static final Logger LOG = LoggerFactory.getLogger(RankingUtil.class);
+
+    /** comparator for two team results */
     private static final IntermediateTeamResultComparator INTERMEDIATES_COMPARATOR = new IntermediateTeamResultComparator();
 
+    /**
+     * Calculates a team order according to their home matches
+     *
+     * @param originalTeams the teams
+     * @param matches the matches
+     * @return the ranking of the teams according to their home matches
+     */
     public static Teams calculateHomeRanking(Teams originalTeams, Matches matches) {
         Map<Integer, IntermediateTeamResult> intermediates = prepareIntermediateResults(originalTeams);
         for (Match m : matches.getMatches()) {
@@ -28,6 +66,13 @@ public class RankingUtil {
         return new Teams(teams);
     }
 
+    /**
+     * Calculates a team order according to their away matches
+     *
+     * @param originalTeams the teams
+     * @param matches the matches
+     * @return the ranking of the teams according to their away matches
+     */
     public static Teams calculateAwayRanking(Teams originalTeams, Matches matches) {
         Map<Integer, IntermediateTeamResult> intermediates = prepareIntermediateResults(originalTeams);
         for (Match m : matches.getMatches()) {
@@ -40,6 +85,13 @@ public class RankingUtil {
         return new Teams(teams);
     }
 
+    /**
+     * Calculates a team order according to their matches in the first half of the season
+     *
+     * @param originalTeams the teams
+     * @param matches the matches
+     * @return the ranking of the teams according to their matches in the first half of the season
+     */
     public static Teams calculateFirstHalfRanking(Teams originalTeams, Matches matches) {
         Map<Integer, IntermediateTeamResult> intermediates = prepareIntermediateResults(originalTeams);
         int numberMatchesPerHalf = matches.getMatches().size() / 2;
@@ -55,6 +107,13 @@ public class RankingUtil {
         return new Teams(teams);
     }
 
+    /**
+     * Calculates a team order according to their matches in the second half of the season
+     *
+     * @param originalTeams the teams
+     * @param matches the matches
+     * @return the ranking of the teams according to their matches in the second half of the season
+     */
     public static Teams calculateSecondHalfRanking(Teams originalTeams, Matches matches) {
         Map<Integer, IntermediateTeamResult> intermediates = prepareIntermediateResults(originalTeams);
         int numberMatchesPerHalf = matches.getMatches().size() / 2;
@@ -95,7 +154,12 @@ public class RankingUtil {
         for (int i = 0; i < sortedResults.size(); i++) {
             IntermediateTeamResult itr = sortedResults.get(i);
             itr.rank = i+1;
-            teams.add(new Team(originalTeams.getTeamByNumber(itr.teamID).get().getTeamData(), createTeamResult(itr)));
+            Optional<Team> team = originalTeams.getTeamByNumber(itr.teamID);
+            if (team.isPresent()) {
+                teams.add(new Team(team.get().getTeamData(), createTeamResult(itr)));
+            } else {
+                LOG.error("Cannot resolve team from id: " + itr.teamID);
+            }
         }
         return teams;
     }

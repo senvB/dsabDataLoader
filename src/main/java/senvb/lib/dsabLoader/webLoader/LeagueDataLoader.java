@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import senvb.lib.dsabLoader.LeagueData;
 import senvb.lib.dsabLoader.LeagueMetaData;
@@ -53,7 +54,7 @@ public class LeagueDataLoader {
 
     private static final Logger LOG = LoggerFactory.getLogger(LeagueDataLoader.class);
 
-    private static final String[] NO_TEAM = {"keine  Mannschaft", "Kein Team"};
+    private static final String[] NO_TEAM = {"keine Mannschaft", "Kein Team"};
 
     public interface LeagueDataLoaderProgressListener {
 
@@ -171,9 +172,13 @@ public class LeagueDataLoader {
             if (md == null) {
                 LOG.error("Incomplete match data!!");
             } else {
-                Team home = oldData.getTeamByNumber(md.getHome()).get();
-                Team away = oldData.getTeamByNumber(md.getAway()).get();
-                matches.add(new Match(md, results.get(i), isRealMatch(home, away)));
+                Optional<Team> home = oldData.getTeamByNumber(md.getHome());
+                Optional<Team> away = oldData.getTeamByNumber(md.getAway());
+                if (home.isPresent() && away.isPresent()) {
+                    matches.add(new Match(md, results.get(i), isRealMatch(home.get(), away.get())));
+                } else {
+                    LOG.error("Cannot resolve team by ID");
+                }
             }
         }
         return new Matches(matches);
@@ -199,9 +204,13 @@ public class LeagueDataLoader {
             if (md == null) {
                 LOG.error("Incomplete match data!!");
             } else {
-                Team home = teams.getTeamByNumber(md.getHome()).get();
-                Team away = teams.getTeamByNumber(md.getAway()).get();
-                matches.add(new Match(md, results.get(i), isRealMatch(home, away)));
+                Optional<Team> home = teams.getTeamByNumber(md.getHome());
+                Optional<Team> away = teams.getTeamByNumber(md.getAway());
+                if (home.isPresent() && away.isPresent()) {
+                    matches.add(new Match(md, results.get(i), isRealMatch(home.get(), away.get())));
+                } else {
+                    LOG.error("Cannot resolve team by ID");
+                }
             }
         }
         return new Matches(matches);
@@ -228,8 +237,12 @@ public class LeagueDataLoader {
             String teamName = entry.getKey();
             int teamID = mappingTeamID.get(teamName);
             TeamRankingEntry teamRank = entry.getValue();
-            TeamData td = teamData.getTeamByNumber(teamID).get().getTeamData();
-            teams.add(new Team(td, teamRank.getResults()));
+            Optional<Team> team = teamData.getTeamByNumber(teamID);
+            if (team.isPresent()) {
+                teams.add(new Team(team.get().getTeamData(), teamRank.getResults()));
+            } else {
+                LOG.error("Cannot resolve team from ID");
+            }
         }
         return new Teams(teams);
     }

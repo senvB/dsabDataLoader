@@ -30,10 +30,18 @@ import java.util.Date;
 
 public class JsonHelper {
 
+    /**
+     * Generates and returns Moshi JSON marshaller/unmarshaller including relevant adapter.
+     *
+     * @return Moshit JSON marshaller/unmarshaller
+     */
     public static Moshi getMoshi() {
         return new Moshi.Builder().add(new DateJsonAdapter()).build();
     }
 
+    /**
+     * Adapter to convert a date to and from JSON.
+     */
     private static class DateJsonAdapter extends JsonAdapter<Date> {
 
         @FromJson
