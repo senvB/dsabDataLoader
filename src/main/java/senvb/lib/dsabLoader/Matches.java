@@ -44,16 +44,6 @@ public class Matches implements Serializable {
         return Collections.unmodifiableList(matches);
     }
 
-//    List<Match> getMatchesForTeam(int teamID) {
-//        List<Match> teamMatches = new ArrayList<>();
-//        for (Match m : matches) {
-//            if (m.getHome() == teamID || m.getAway() == teamID) {
-//                teamMatches.add(m);
-//            }
-//        }
-//        return teamMatches;
-//    }
-
     public Match getMatchesByID(int mID) {
         for (Match m : matches) {
             if (m.getMatchID() == mID) {

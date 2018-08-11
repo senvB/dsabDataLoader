@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Collection of all teams in a league.
@@ -47,58 +48,18 @@ public class Teams implements Serializable {
      * @param teamName the name
      * @return the team or null if not found
      */
-    Team getTeamByName(String teamName) {
-        for (Team t : this.teams) {
-            if (t.getName().equals(teamName)) {
-                return t;
-            }
-        }
-        return null;
+    Optional<Team> getTeamByName(String teamName) {
+        return teams.stream().filter(t -> t.getName().equals(teamName)).findFirst();
     }
 
     /**
      * Gets the team by its internal ID.
      * @param id the internal ID
-     * @return the team or null if not found
+     * @return the team with this internal ID
      */
-    public Team getTeamByNumber(int id) {
-        for (Team t : this.teams) {
-            if (t.getTeamID() == id) {
-                return t;
-            }
-        }
-        return null;
+    public Optional<Team> getTeamByNumber(int id) {
+        return teams.stream().filter(t -> t.getTeamID() == id).findFirst();
     }
-
-//    public final int getNumberOfTeams() {
-//        return this.teams.size();
-//    }
-
-    /**
-     * Gets the team ID by its name.
-     * @param teamName the name
-     * @return the team ID or null if not found
-     */
-//    public int getTeamIDByName(String teamName) {
-//        for (Team t : this.teams) {
-//            if (t.getName().equals(teamName)) {
-//                return t.getTeamID();
-//            }
-//        }
-//        return -1;
-//    }
-
-    /**
-     * Gets all team names.
-     * @return all team names
-     */
-//    public Set<String> getTeamNames() {
-//        Set<String> names = new HashSet<>();
-//        for (Team t : this.teams) {
-//            names.add(t.getName());
-//        }
-//        return names;
-//    }
 
     /**
      * Returns a list of all teams ordered according to the current rank in the league.

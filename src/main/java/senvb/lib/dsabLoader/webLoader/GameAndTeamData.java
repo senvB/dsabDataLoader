@@ -38,4 +38,5 @@ class GameAndTeamData {
     Map<String, TeamAddressData> getTeamData() {
         return this.teamData;
     }
+
 }

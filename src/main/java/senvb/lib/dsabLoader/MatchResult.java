@@ -52,13 +52,13 @@ public class MatchResult implements Serializable {
         this.awaySets = awaySets;
     }
 
-//    final int getHomePoints() {
-//        return homePoints;
-//    }
-//
-//    final int getAwayPoints() {
-//        return awayPoints;
-//    }
+    final int getHomePoints() {
+        return homePoints;
+    }
+
+    final int getAwayPoints() {
+        return awayPoints;
+    }
 
     final int getHomeGames() {
         return homeGames;
