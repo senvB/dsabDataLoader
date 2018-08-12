@@ -31,8 +31,6 @@ import senvb.lib.dsabLoader.utils.RankingUtil;
  */
 public class LeagueData implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     public enum RankingType {
         FULL,
 

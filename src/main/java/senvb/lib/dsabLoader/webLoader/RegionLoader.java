@@ -80,9 +80,9 @@ public final class RegionLoader {
     }
 
     private static URL resolveRegionForStateUrl(String stateName) throws MalformedURLException, DataLoaderException {
-        StringBuilder url = new StringBuilder();
-        url.append(Constants.BASE_URL).append(Constants.REGION_URL_PRE).append(resolveStateUrlName(stateName)).append(Constants.REGION_URL_POST);
-        return new URL(url.toString());
+        String url = Constants.BASE_URL + Constants.REGION_URL_PRE + resolveStateUrlName
+                (stateName) + Constants.REGION_URL_POST;
+        return new URL(url);
     }
 
     private static String resolveStateUrlName(String stateName) throws DataLoaderException {

@@ -28,8 +28,6 @@ import java.util.Date;
  */
 public class LeagueMetaData implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     /**
      * the season in which thia league runs
      */

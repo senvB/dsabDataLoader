@@ -22,8 +22,6 @@ package senvb.lib.dsabLoader.webLoader;
  */
 public class DataLoaderException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
     /**
      * Loading stage defines at which stage the loading of information failed.
      */

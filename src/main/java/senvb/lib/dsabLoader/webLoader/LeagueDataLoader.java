@@ -59,6 +59,7 @@ public class LeagueDataLoader {
     public interface LeagueDataLoaderProgressListener {
 
         enum Step {
+
             //TODO the messages need to be localized for the app
             TEAM_RANKING("Teamrangliste"),
 
@@ -70,19 +71,18 @@ public class LeagueDataLoader {
 
             CHECK_FOR_UPDATE("Teamrangliste/Update check");
 
+            public static final int NUMBER_STEPS = 4;
+
             private final String text;
 
             Step(String msg) {
-                this.text = msg;
+                text = msg;
             }
 
             public final String getMessage() {
-                return this.text;
+                return text;
             }
 
-            public static int getTotalNumberOfSteps() {
-                return 4;
-            }
         }
 
         void update(Step step);

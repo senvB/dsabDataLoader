@@ -96,10 +96,9 @@ class CurrentPlayerRankingLoader {
     }
 
     private static URL resolveCurrentPlayerRankingUrl(LeagueMetaData lmd) throws MalformedURLException {
-        StringBuilder url = new StringBuilder();
-        url.append(Constants.BASE_URL).append(Constants.LEAGUE_DATA_URL_PRE).append(lmd.getLeagueID())
-                .append(Constants.PLAYER_URL_POST).append(lmd.getSeasonID());
-        return new URL(url.toString());
+        String url = Constants.BASE_URL + Constants.LEAGUE_DATA_URL_PRE + lmd.getLeagueID() +
+        Constants.PLAYER_URL_POST + lmd.getSeasonID();
+        return new URL(url);
     }
 
 }

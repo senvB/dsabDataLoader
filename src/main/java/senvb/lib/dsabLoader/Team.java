@@ -28,8 +28,6 @@ import java.io.Serializable;
  */
 public class Team implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     /** the static team data */
     private final TeamData teamData;
     /** the dynamic team data */

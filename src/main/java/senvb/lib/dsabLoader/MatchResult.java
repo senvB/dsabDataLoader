@@ -27,8 +27,6 @@ import java.io.Serializable;
  */
 public class MatchResult implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     /** the games won by the away team */
     private final int awayGames;
     /** the points for the away team */

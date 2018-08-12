@@ -38,9 +38,9 @@ import javax.net.ssl.SSLContext;
 
 final class LoaderUtil {
 
-    private static String USER_AGENT_HEADER_KEY = "User-Agent";
+    private static final String USER_AGENT_HEADER_KEY = "User-Agent";
 
-    private static String USER_AGENT_HEADER_VALUE = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11";
+    private static final String USER_AGENT_HEADER_VALUE = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11";
 
     static Elements loadHtmlSource(String url, String pattern) throws IOException {
         return Jsoup.connect(url).header(LoaderUtil.USER_AGENT_HEADER_KEY, LoaderUtil.USER_AGENT_HEADER_VALUE)
