@@ -33,7 +33,7 @@ import senvb.lib.dsabLoader.Player;
 import senvb.lib.dsabLoader.PlayerData;
 import senvb.lib.dsabLoader.PlayerResult;
 import senvb.lib.dsabLoader.Players;
-import senvb.lib.dsabLoader.webLoader.DataLoaderException.ExceptionType;
+import senvb.lib.dsabLoader.webLoader.DataLoaderException.LoadingStage;
 
 /**
  * Loads the current player ranking for a league.
@@ -61,7 +61,7 @@ class CurrentPlayerRankingLoader {
                 }
             }
         } catch (IOException e) {
-            throw new DataLoaderException(ExceptionType.CURRENT_PLAYER_RANKING, e, url);
+            throw new DataLoaderException(LoadingStage.CURRENT_PLAYER_RANKING, DataLoaderException.ExceptionType.IO, e, url);
         }
         return new Players(players);
     }

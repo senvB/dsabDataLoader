@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import senvb.lib.dsabLoader.Region;
-import senvb.lib.dsabLoader.webLoader.DataLoaderException.ExceptionType;
+import senvb.lib.dsabLoader.webLoader.DataLoaderException.LoadingStage;
 
 /**
  * Loader for the regions within a state.
@@ -59,7 +59,7 @@ public final class RegionLoader {
             }
             return regions;
         } catch (IOException e) {
-            throw new DataLoaderException(ExceptionType.REGION, e, url);
+            throw new DataLoaderException(LoadingStage.REGION, DataLoaderException.ExceptionType.IO, e, url);
         }
     }
 
@@ -90,7 +90,7 @@ public final class RegionLoader {
         if (name != null) {
             return name;
         }
-        throw new DataLoaderException(ExceptionType.REGION);
+        throw new DataLoaderException(LoadingStage.REGION, DataLoaderException.ExceptionType.PARSING);
     }
 
     private static int extractRegionNumber(Element e) {

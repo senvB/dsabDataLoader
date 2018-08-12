@@ -1,19 +1,19 @@
 /**
- *  The DSAB data loader library allows to parse information for DSAB dart leagues.
- *  Copyright (C) 2017-2018  Sven Baselau
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * The DSAB data loader library allows to parse information for DSAB dart leagues.
+ * Copyright (C) 2017-2018  Sven Baselau
+ * <p>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package senvb.lib.dsabLoader.webLoader;
 
@@ -31,9 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.security.KeyManagementException;
-import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -49,7 +47,7 @@ final class LoaderUtil {
                 .header("connection", "Keep-Alive").timeout(50000).get().select(pattern);
     }
 
-    static String loadPdfFromSource(URL url) throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+    static String loadPdfFromSource(URL url) throws IOException {
         InputStream is = getStream(url);
         PdfReader reader = new PdfReader(is);
         PdfReaderContentParser parser = new PdfReaderContentParser(reader);
@@ -75,10 +73,15 @@ final class LoaderUtil {
         }
     }
 
-    private static InputStream getStream(URL url) throws NoSuchAlgorithmException, KeyManagementException, IOException {
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, null, null);
-        HttpsURLConnection conn = (HttpsURLConnection)url.openConnection();
+    private static InputStream getStream(URL url) throws IOException {
+        final SSLContext sslContext;
+        try {
+            sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, null, null);
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            throw new IOException("Problem setting up SSL", e);
+        }
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
         conn.setSSLSocketFactory(sslContext.getSocketFactory());
         conn.connect();
         return conn.getInputStream();
