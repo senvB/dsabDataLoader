@@ -31,8 +31,6 @@ import java.util.List;
  */
 public class Players implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     private static final Comparator<Player> PLAYER_RANKING_COMPARATOR = new PlayerRankingSorter();
 
     private final List<Player> players = new ArrayList<>();
@@ -83,8 +81,10 @@ public class Players implements Serializable {
         public int compare(Player p1, Player p2) {
             if (p1.getRank() < p2.getRank()) {
                 return -1;
+            } else if (p1.getRank() > p2.getRank()) {
+                return 1;
             }
-            return 1;
+            return 0;
         }
     }
 }

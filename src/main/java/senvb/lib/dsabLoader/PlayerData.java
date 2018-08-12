@@ -24,8 +24,6 @@ import java.io.Serializable;
 
 public class PlayerData implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     /**
      * name of the player
      */

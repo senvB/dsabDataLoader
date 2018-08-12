@@ -80,9 +80,8 @@ public final class SeasonOverviewLoader {
     }
 
     private static URL resolveSeasonOverviewUrl(int regionID) throws MalformedURLException {
-        StringBuilder url = new StringBuilder();
-        url.append(Constants.BASE_URL).append(Constants.SEASON_OVERVIEW_URL).append(regionID);
-        return new URL(url.toString());
+        String url = Constants.BASE_URL + Constants.SEASON_OVERVIEW_URL + regionID;
+        return new URL(url);
     }
 
     private static int resolveID(Element idElement) {

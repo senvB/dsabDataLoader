@@ -28,8 +28,6 @@ import java.util.Date;
  */
 public class MatchData implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     /** internal ID of the away team */
     private final int away;
     /** dat when the match is played */

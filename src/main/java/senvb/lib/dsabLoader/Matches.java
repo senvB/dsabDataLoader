@@ -29,8 +29,6 @@ import java.util.List;
 
 public class Matches implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     private static final Comparator<Match> MATCH_DATE_SORTER = new MatchIDSorter();
 
     private final List<Match> matches = new ArrayList<>();

@@ -27,8 +27,6 @@ import java.io.Serializable;
  */
 public class TeamResult implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     /** games lost */
     private final int gamesNeg;
     /** games won */

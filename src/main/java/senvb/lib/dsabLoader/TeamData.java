@@ -27,8 +27,6 @@ import java.io.Serializable;
  */
 public class TeamData implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     /**
      * the address of the venue
      */

@@ -29,8 +29,6 @@ import java.util.Date;
  */
 public class Season implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     /** the ID of the region */
     private final int regionID;
     /** the name of the region */

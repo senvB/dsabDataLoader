@@ -32,8 +32,6 @@ import java.util.Optional;
  */
 public class Teams implements Serializable {
 
-    private static final long serialVersionUID = 1;
-
     private static final Comparator<Team> TEAM_RANKING = new TeamRankingSorter();
 
     private final List<Team> teams = new ArrayList<>();
@@ -72,13 +70,7 @@ public class Teams implements Serializable {
     private static class TeamRankingSorter implements Comparator<Team> {
 
         public int compare(Team t1, Team t2) {
-            if (t1.getRank() < t2.getRank()) {
-                return -1;
-            }
-            if (t1.getRank() > t2.getRank()) {
-                return 1;
-            }
-            return 0;
+            return Integer.compare(t1.getRank(), t2.getRank());
         }
     }
 

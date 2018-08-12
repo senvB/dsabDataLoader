@@ -88,8 +88,7 @@ public final class LeagueMetaDataLoader {
     }
 
     private static URL resolveLeagueMetaDataUrl(int seasonID) throws MalformedURLException {
-        StringBuilder url = new StringBuilder();
-        url.append(Constants.BASE_URL).append(Constants.SEASON_URL).append(seasonID);
-        return new URL(url.toString());
+        String url = Constants.BASE_URL + Constants.SEASON_URL + seasonID;
+        return new URL(url);
     }
 }

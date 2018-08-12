@@ -19,9 +19,8 @@ package senvb.lib.dsabLoader.webLoader;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-public final class Constants {
+final class Constants {
 
     static final String BASE_URL = "https://www.dsab-vfs.de";
     static final String GAME_PLAN_URL_POST = "&typ=partienplanPDF&saison=";
@@ -57,10 +56,5 @@ public final class Constants {
         URL_STATE_NAMES_MAPPING.put("Schleswig-Holstein", "schlesswig");
         URL_STATE_NAMES_MAPPING.put("Thüringen", "thuer");
     }
-
-    public static Set<String> getStates() {
-        return URL_STATE_NAMES_MAPPING.keySet();
-    }
-
 
 }
