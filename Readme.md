@@ -47,7 +47,7 @@ It is used to read actual (and past) scores for all Darts leagues maintained by 
 My name is Sven and I am playing electronic darts as one of my hobbies. This project brings darts in combination with my second hobby: coding. Whenever there is some spare time I try to code a little bit and learn new stuff.
 Living currently in Berlin you may also find my name in the players list when using the related Android app.
 
-In case you would like to use the library or the app I would be happy to receive a message from you. Also if you would like to contribute or have a nice idea of a new feature, then please don not hesitate to contact me. This also counts for any kind of bugs you encounter when using my code.``
+In case you would like to use the library or the app I would be happy to receive a message from you. Also if you would like to contribute or have a nice idea of a new feature, then please don not hesitate to contact me. This also counts for any kind of bugs you encounter when using my code.
 
 The website of the app can be found under https://dartsviewer.senv.de. This website is in German.
 
