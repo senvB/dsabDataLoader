@@ -19,6 +19,7 @@ package senvb.lib.dsabLoader.webLoader;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import java.util.Map;
 
 import senvb.lib.dsabLoader.LeagueMetaData;
 import senvb.lib.dsabLoader.MatchResult;
-import senvb.lib.dsabLoader.webLoader.DataLoaderException.ExceptionType;
+import senvb.lib.dsabLoader.webLoader.DataLoaderException.LoadingStage;
 
 class CurrentResultListLoader {
     private CurrentResultListLoader() {
@@ -42,8 +43,8 @@ class CurrentResultListLoader {
             String pdfData = LoaderUtil.loadPdfFromSource(url);
             resolveResults(pdfData, mappingTeamID, results);
             return results;
-        } catch (Exception e) {
-            throw new DataLoaderException(ExceptionType.CURRENT_RESULTS, e, urlString);
+        } catch (IOException e) {
+            throw new DataLoaderException(LoadingStage.CURRENT_RESULTS, DataLoaderException.ExceptionType.IO, e, urlString);
         }
     }
 
@@ -94,10 +95,10 @@ class CurrentResultListLoader {
                 matchNumber = Integer.parseInt(dataLine.split(" ")[0].trim());
             }
             if (matchCounter != matchNumber) {
-                throw new DataLoaderException(ExceptionType.CURRENT_RESULTS);
+                throw new DataLoaderException(LoadingStage.CURRENT_RESULTS, DataLoaderException.ExceptionType.PARSING);
             }
         } catch (NumberFormatException e) {
-            throw new DataLoaderException(ExceptionType.CURRENT_RESULTS);
+            throw new DataLoaderException(LoadingStage.CURRENT_RESULTS, DataLoaderException.ExceptionType.PARSING);
         }
         return matchNumber;
     }

@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 import senvb.lib.dsabLoader.Season;
-import senvb.lib.dsabLoader.webLoader.DataLoaderException.ExceptionType;
+import senvb.lib.dsabLoader.webLoader.DataLoaderException.LoadingStage;
 
 /**
  * Loads an overview of all seasons played in a region.
@@ -65,7 +65,7 @@ public final class SeasonOverviewLoader {
             }
             return seasons;
         } catch (IOException e) {
-            throw new DataLoaderException(ExceptionType.SEASON_OVERVIEW, e, url);
+            throw new DataLoaderException(LoadingStage.SEASON_OVERVIEW, DataLoaderException.ExceptionType.IO, e, url);
         }
     }
 

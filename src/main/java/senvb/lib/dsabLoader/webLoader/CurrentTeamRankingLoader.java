@@ -29,7 +29,7 @@ import java.util.Map;
 
 import senvb.lib.dsabLoader.LeagueMetaData;
 import senvb.lib.dsabLoader.TeamResult;
-import senvb.lib.dsabLoader.webLoader.DataLoaderException.ExceptionType;
+import senvb.lib.dsabLoader.webLoader.DataLoaderException.LoadingStage;
 
 /**
  * Loads the team ranking page from the web and returns the teams with its current results and ranking.
@@ -59,7 +59,7 @@ class CurrentTeamRankingLoader {
             }
             return ranking;
         } catch (IOException e) {
-            throw new DataLoaderException(ExceptionType.TEAM_RANKING, e, url);
+            throw new DataLoaderException(LoadingStage.TEAM_RANKING, DataLoaderException.ExceptionType.IO, e, url);
         }
     }
 

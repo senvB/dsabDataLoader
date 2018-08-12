@@ -31,7 +31,7 @@ import java.util.List;
 
 import senvb.lib.dsabLoader.LeagueMetaData;
 import senvb.lib.dsabLoader.Season;
-import senvb.lib.dsabLoader.webLoader.DataLoaderException.ExceptionType;
+import senvb.lib.dsabLoader.webLoader.DataLoaderException.LoadingStage;
 
 /**
  * Loader for leage meta data information. Collects basic information for all leagues
@@ -62,7 +62,7 @@ public final class LeagueMetaDataLoader {
             }
             return leagues;
         } catch (IOException e) {
-            throw new DataLoaderException(ExceptionType.LEAGUE_META_DATA, e, url);
+            throw new DataLoaderException(LoadingStage.LEAGUE_META_DATA, DataLoaderException.ExceptionType.IO, e, url);
         }
     }
 

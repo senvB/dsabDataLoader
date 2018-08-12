@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
 
 import senvb.lib.dsabLoader.LeagueMetaData;
 import senvb.lib.dsabLoader.MatchData;
-import senvb.lib.dsabLoader.webLoader.DataLoaderException.ExceptionType;
+import senvb.lib.dsabLoader.webLoader.DataLoaderException.LoadingStage;
 
 class GamePlanLoader {
 
@@ -67,8 +67,8 @@ class GamePlanLoader {
             String pdfData = LoaderUtil.loadPdfFromSource(url);
             String[] prefixes = findPrefixOfStreet(url);
             return resolveGamePlanData(pdfData, mappingTeamID, prefixes);
-        } catch (Exception e) {
-            throw new DataLoaderException(ExceptionType.GAME_PLAN, e, urlString);
+        } catch (IOException e) {
+            throw new DataLoaderException(LoadingStage.GAME_PLAN, DataLoaderException.ExceptionType.IO, e, urlString);
         }
     }
 
@@ -253,7 +253,7 @@ class GamePlanLoader {
             }
         }
         if (indexA == -1 || indexB == -1) {
-            throw new DataLoaderException(ExceptionType.GAME_PLAN);
+            throw new DataLoaderException(LoadingStage.GAME_PLAN, DataLoaderException.ExceptionType.PARSING);
         } else if (indexA < indexB) {
             return new String[]{teamAName, teamBName};
         } else {
@@ -267,10 +267,10 @@ class GamePlanLoader {
             try {
                 return DATE_FORMAT.parse(matcher.group(0));
             } catch (ParseException e) {
-                throw new DataLoaderException(ExceptionType.GAME_PLAN);
+                throw new DataLoaderException(LoadingStage.GAME_PLAN, DataLoaderException.ExceptionType.PARSING);
             }
         }
-        throw new DataLoaderException(ExceptionType.GAME_PLAN);
+        throw new DataLoaderException(LoadingStage.GAME_PLAN, DataLoaderException.ExceptionType.PARSING);
     }
 
     private static int[] resolveRoundAndGameNumber(String line, int currentRound, String teamHome) {

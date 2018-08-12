@@ -25,32 +25,42 @@ public class DataLoaderException extends Exception {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Exception type defines at which stage the loading of information failed.
+     * Loading stage defines at which stage the loading of information failed.
      */
-    public enum ExceptionType {
+    public enum LoadingStage {
         CURRENT_PLAYER_RANKING, SEASON_OVERVIEW, LEAGUE_META_DATA, TEAM_RANKING, GAME_PLAN, CURRENT_RESULTS, REGION
     }
 
-    private final ExceptionType type;
+    /**
+     * Exception type defines at which level of a stage the error occured.
+     */
+    public enum ExceptionType {
+        IO, PARSING
+    }
 
+    private final LoadingStage loadingStage;
 
+    private final ExceptionType exceptionType;
 
     private final String url;
 
-    public DataLoaderException(ExceptionType type, Throwable t, String url) {
+    public DataLoaderException(LoadingStage loadingStage, ExceptionType eType, Throwable t, String url) {
         super(t);
-        this.type = type;
+        this.loadingStage = loadingStage;
         this.url = url;
+        this.exceptionType = eType;
     }
 
-    public DataLoaderException(ExceptionType type) {
-        super();
-        this.type = type;
-        this.url = "";
+    public DataLoaderException(LoadingStage loadingStage, ExceptionType eType) {
+        this(loadingStage, eType, null, "");
     }
 
-    public final ExceptionType getType() {
-        return type;
+    public LoadingStage getLoadingStage() {
+        return loadingStage;
+    }
+
+    public ExceptionType getExceptionType() {
+        return exceptionType;
     }
 
     public String getUrl() {
