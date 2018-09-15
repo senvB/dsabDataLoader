@@ -263,7 +263,7 @@ public class LeagueDataLoader {
                 phone = teamAddr.getPhone();
                 venue = teamAddr.getVenue();
             }
-            TeamData td = new TeamData(teamID, teamName, teamRank.getCaptain(), addr, phone, venue);
+            TeamData td = new TeamData(teamID, teamName, teamRank.getCaptain(), addr, phone, venue, teamRank.offersFood());
             teams.add(new Team(td, teamRank.getResults()));
         }
         return new Teams(teams);

@@ -67,7 +67,12 @@ class CurrentTeamRankingLoader {
         int rank = resolveNumber(rankingRow.child(0), "rank");
         String teamString = rankingRow.child(1).text();
         if (teamString.contains("Spielfrei")) {
-            return new TeamRankingEntry(teamString, "", new TeamResult(0, 0, 0, 0, 0, 0, 0));
+            return new TeamRankingEntry(teamString, "", new TeamResult(0, 0, 0, 0, 0, 0, 0), false);
+        }
+        boolean offersFood = true;
+        if (teamString.contains("(kein Essen)") || teamString.contains("(Kein Essen)")) {
+            teamString = teamString.replace("(kein Essen)", "").replace("(Kein Essen)", "");
+            offersFood = false;
         }
         String captain = rankingRow.child(2).text();
         int matches = resolveNumber(rankingRow.child(3), "matches");
@@ -77,7 +82,7 @@ class CurrentTeamRankingLoader {
         int setsPos = resolveNumber(rankingRow.child(8), "setsPos");
         int setsNeg = resolveNumber(rankingRow.child(10), "setsNeg");
         TeamResult result = new TeamResult(matches, gamesPos, gamesNeg, setsPos, setsNeg, points, rank);
-        return new TeamRankingEntry(teamString, captain, result);
+        return new TeamRankingEntry(teamString, captain, result, offersFood);
     }
 
     private static URL resolveCurrentTeamRankingUrl(LeagueMetaData lmd) throws MalformedURLException {
