@@ -51,14 +51,19 @@ public class TeamData implements Serializable {
      * the location where the team plays its matches
      */
     private final String venue;
+    /**
+     * food is offered during home matches
+     */
+    private final boolean offersFood;
 
-    public TeamData(int teamID, String name, String captain, String address, String phoneNumber, String venue) {
+    public TeamData(int teamID, String name, String captain, String address, String phoneNumber, String venue, boolean offersFood) {
         this.teamID = teamID;
         this.name = name;
         this.captain = captain;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.venue = venue;
+        this.offersFood = offersFood;
     }
 
     String getName() {
@@ -85,6 +90,10 @@ public class TeamData implements Serializable {
         return this.venue;
     }
 
+    boolean offersFood() {
+        return offersFood;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -97,7 +106,8 @@ public class TeamData implements Serializable {
                 .append(this.captain, other.captain)
                 .append(this.address, other.address)
                 .append(this.phoneNumber, other.phoneNumber)
-                .append(this.venue, other.venue);
+                .append(this.venue, other.venue)
+                .append(this.offersFood, other.offersFood);
         return builder.build();
     }
 
@@ -109,7 +119,8 @@ public class TeamData implements Serializable {
                 .append(this.captain)
                 .append(this.address)
                 .append(this.phoneNumber)
-                .append(this.venue);
+                .append(this.venue)
+                .append(offersFood);
         return builder.build();
     }
 

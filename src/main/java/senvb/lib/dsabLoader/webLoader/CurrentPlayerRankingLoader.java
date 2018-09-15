@@ -68,6 +68,9 @@ class CurrentPlayerRankingLoader {
 
     private static Player resolvePlayer(Element rankingRow, Map<String, Integer> mappingTeamID) {
         String teamString = rankingRow.child(2).text();
+        if (teamString.contains("(kein Essen)") || teamString.contains("(Kein Essen)")) {
+            teamString = teamString.replace("(kein Essen)", "").replace("(Kein Essen)", "");
+        }
         String rankString = rankingRow.child(0).text();
         String name = rankingRow.child(1).text();
 

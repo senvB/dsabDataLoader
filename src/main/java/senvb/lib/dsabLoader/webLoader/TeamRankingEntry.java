@@ -24,11 +24,13 @@ class TeamRankingEntry {
     private final String captain;
     private final TeamResult result;
     private final String teamName;
+    private final boolean offersFood;
 
-    TeamRankingEntry(String team, String captain, TeamResult result) {
+    TeamRankingEntry(String team, String captain, TeamResult result, boolean offersFood) {
         this.result = result;
         this.teamName = team;
         this.captain = captain;
+        this.offersFood = offersFood;
     }
 
     final String getTeamName() {
@@ -41,6 +43,10 @@ class TeamRankingEntry {
 
     final TeamResult getResults() {
         return this.result;
+    }
+
+    final boolean offersFood() {
+        return offersFood;
     }
 
 }

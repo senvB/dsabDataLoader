@@ -98,6 +98,10 @@ public class Team implements Serializable {
         return this.teamResult.getPoints();
     }
 
+    public final boolean offersFood() {
+        return this.teamData.offersFood();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
