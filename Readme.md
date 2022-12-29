@@ -1,5 +1,7 @@
 # DSAB data loader
 
+!!!THIS REPOSITORY IS DEPRECATED!!!
+
 ## Introduction
 This library can be used to load and parse information from the website of the Deutscher Sportautomatenbund e.V. (DSAB) (http://www.dsab-vfs.de).
 The DSAB organizes electronic darts events in Germany. This includes nation-wide tournaments as well as amateur and professional leagues.
